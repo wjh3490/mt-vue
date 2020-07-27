@@ -1,0 +1,59 @@
+{
+  "data": {
+    "activityList": [
+      {
+        "actName": "",
+        "actDesc": "满&#xe05d;&#xe15f;减&#xe68e;&#xf03e;;满&#xe07c;&#xe072;减&#xf03e;&#xe05d;;满&#xec4c;&#xec4c;减&#xe05d;&#xe15f;(在线支付专享)",
+        "actType": 0,
+        "iconText": "",
+        "iconUrl": "http://p0.meituan.net/activityconfig/6087b33fd42d14fd94e899084aaef56d1720.png"
+      },
+      {
+        "actName": "",
+        "actDesc": "折扣商品&#xf03e;.&#xe145;&#xe072;折起(在线支付专享)",
+        "actType": 0,
+        "iconText": "",
+        "iconUrl": "http://p0.meituan.net/activityconfig/3da2d9c7a4ddf89e4e71cfdfff168c391088.png"
+      },
+      {
+        "actName": "",
+        "actDesc": "该商家支持在线支付",
+        "actType": 0,
+        "iconText": "",
+        "iconUrl": "http://p1.meituan.net/xianfu/32200c3060be7903f62c9076308619ee734.png"
+      }
+    ],
+    "dpShopId": 0,
+    "invoiceMsg": "",
+    "invoiceSupport": 1,
+    "licencePics": [
+      "http://p0.meituan.net/waimaipoi/9be3993ae4b8c7e54e2b1d036142ab6c160088.jpg@900w_600h_1e_1c",
+      "http://p1.meituan.net/waimaipoi/fbe48c8f7b1d0f555878bffebf04fe05137217.jpg@900w_600h_1e_1c"
+    ],
+    "poiQualificationInfo": {
+      "show": true,
+      "content": "查看食品安全档案",
+      "url": "https://i.waimai.meituan.com/c/foods_safe_doc/index.html?wm_poi_id=1065479498542341"
+    },
+    "mtWmPoiId": "1065479498542341",
+    "onlinePay": 1,
+    "overtimePaymentSupported": false,
+    "isBrand": 1,
+    "brandMsg": "该商户为品牌商户",
+    "serTime": [
+      "&#xe15f;&#xec4c;:&#xf03e;&#xe072;-&#xf03e;&#xe05d;:&#xe15f;&#xe15f;"
+    ],
+    "shopAddress": "彭埠街杭州创意设计中心E幢&#xe68e;&#xe15f;&#xf03e;&#xe072;号（杭州创意中心G区&#xe68e;层（西面商铺E&#xe68e;&#xe15f;&#xf03e;&#xe072;，太麻里餐厅同一侧往出口方向十米处））",
+    "shopEnvTitle": "商家环境",
+    "shopName": "金鲜生料理•寿司丼饭（城东店）",
+    "shopPhone": ["15924113991", "15927171956"],
+    "shopReviewTitle": "点评评价",
+    "shopStar": 47,
+    "sold": "0",
+    "tip": "金鲜生：「杭州日料外卖榜首品牌」「年度高品质商家」。高峰时段运力不足和恶劣天气时，配送费会提价且送达时间误差较大，机智的宝宝请尽量提前下单哦！配送中的订单不可取消，配送进度可直接联系骑手追踪。其他问题可直接致电商家解决哦！",
+    "shopLat": 3.0278829e7,
+    "shopLng": 1.20204308e8
+  },
+  "code": 0,
+  "msg": "成功"
+}

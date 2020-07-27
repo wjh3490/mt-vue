@@ -1,0 +1,92 @@
+@base: 37.5rem;
+.info {
+  margin-left: 15 / @base;
+  color: #000;
+  font-size: 12 / @base;
+  overflow: hidden;
+}
+.info-inner {
+  padding-right: 30 / @base;
+}
+.info-common (@x,@y) {
+  background-size: @x @y;
+  padding-left: 24 / @base;
+  margin: 18 / @base 0;
+}
+.address {
+  background: url(../../assets/i1.png) left top no-repeat;
+  .info-common(14 / @base, 16 / @base);
+
+  padding-right: 50 / @base;
+  position: relative;
+  a {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20 / @base;
+    height: 20 / @base;
+    background: url(../../assets/i3.png) center no-repeat;
+    background-size: 100%;
+  }
+}
+.info-item {
+  background: url(../../assets/i7.png) left top no-repeat;
+  .info-common(14 / @base, 13 / @base);
+  padding-right: 15 / @base;
+  position: relative;
+  span {
+    position: absolute;
+    width: 6 / @base;
+    height: 11 / @base;
+    background: url(../../assets/p5.png) right top no-repeat;
+    background-size: 100%;
+    right: 0;
+  }
+}
+.service {
+  background: url(../../assets/i5.png) left top no-repeat;
+  .info-common(13 / @base, 15 / @base);
+  display: flex;
+  img {
+    width: 50 / @base;
+    height: 15 / @base;
+    margin-right: 15 / @base;
+  }
+}
+.time {
+  background: url(../../assets/i2.png) left top no-repeat;
+  .info-common(14 / @base, 14 / @base);
+}
+.tip {
+  background: url(../../assets/i6.png) left top no-repeat;
+  .info-common(14 / @base, 14 / @base);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+  span {
+    position: absolute;
+    width: 6 / @base;
+    height: 11 / @base;
+    background: url(../../assets/p5.png) right top no-repeat;
+    background-size: 100%;
+    right: 0;
+  }
+}
+
+.shopEnvTitle {
+  background: url(../../assets/i4.png) left top no-repeat;
+  .info-common(14 / @base, 14 / @base);
+}
+
+.activityList {
+  ul {
+    li {
+      // background: left top no-repeat;
+      background: url(../../assets/i4.png) left top no-repeat;
+      .info-common(14 / @base, 14 / @base);
+      margin: 10 / @base 0;
+    }
+  }
+}
