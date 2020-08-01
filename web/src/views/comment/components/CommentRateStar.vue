@@ -6,7 +6,6 @@
       :class="item"
       @click="fn(index)"
     ></span>
-    <!-- <p v-html="com"></p> -->
   </div>
 </template>
 
@@ -20,7 +19,7 @@ export default {
   data() {
     return {
       id: -1,
-      count: 3.6 /* 可以修改初始的评分 */
+      count: 3.6
     };
   },
   methods: {

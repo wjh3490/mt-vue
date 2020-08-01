@@ -4,7 +4,7 @@
       <span
         class="del"
         @click.stop.prevent="
-          $store.commit('delCart', {
+          delCart({
             spuId
           })
         "
@@ -14,7 +14,7 @@
     <span
       class="add"
       @click.stop.prevent="
-        $store.commit('addCart', {
+        addCart({
           currentPrice,
           originPrice,
           spuId,
@@ -27,53 +27,23 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
   name: 'Count',
   props: {
-    currentPrice: {
-      type: Number
-    },
-    originPrice: {
-      type: Number
-    },
-    spuId: {
-      type: Number
-    },
-    tag: {
-      type: String
-    },
-    spuName: {
-      type: String
-    }
+    currentPrice: Number,
+    originPrice: Number,
+    spuId: Number,
+    tag: String,
+    spuName: String
   },
-  // data () {
-  //   return {
-  //     index: 0
-  //   }
-  // },
   computed: {
-    // ...mapState(['selectFoods']),
     ...mapGetters(['count1'])
+  },
+  methods: {
+    ...mapMutations(['addCart', 'delCart'])
   }
-  // created () {},
-  // methods: {
-  // addCount () {
-  //   this.$store.commit('addCart', {
-  //     currentPrice: this.currentPrice,
-  //     originPrice: this.originPrice,
-  //     spuId: this.spuId,
-  //     tag: this.tag,
-  //     spuName: this.spuName
-  //   })
-  // }
-  // del () {
-  //   this.$store.commit('delCart', {
-  //     spuId: this.spuId
-  //   })
-  // }
-  // }
-}
+};
 </script>
 <style scoped lang="less">
 @base: 37.5rem;
@@ -94,11 +64,11 @@ export default {
   height: 25 / @base;
   // width: 80 / @base;
   .add {
-    .common("../../../assets/add.png");
+    .common('../assets/add.png');
     float: right;
   }
   .del {
-    .common("../../../assets/del.png");
+    .common('../assets/del.png');
   }
   .center {
     padding: 0 10 / @base;

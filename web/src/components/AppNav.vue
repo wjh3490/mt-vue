@@ -1,19 +1,27 @@
 <template functional>
- <nav class="nav-container">
-      <ul class="nav-main">
-        <li v-for="(item, index) in props.navList" :key="index" class="nav-item">
-          <router-link :to="item.link" class="nav-link">{{ item.name }}</router-link>
-        </li>
-      </ul>
-    </nav>
+  <nav class="nav-container">
+    <ul class="nav-main">
+      <li v-for="(item, index) in props.navList" :key="index" class="nav-item">
+        <router-link :to="item.link" class="nav-link">{{
+          item.name
+        }}</router-link>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>
 export default {
-  props: ['navList']
+  name: 'AppNav',
+  props: {
+    navList: {
+      type: Array,
+      default: () => []
+    }
+  }
 };
 </script>
-<style scoped lang='less'>
+<style scoped lang="less">
 @base: 37.5rem;
 .nav- {
   &container {

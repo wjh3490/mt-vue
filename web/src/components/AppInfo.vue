@@ -1,30 +1,32 @@
 <template functional>
- <div class="info-container">
-        <div
-          class="info-pic"
-          :style="{ backgroundImage: `url(http://p1.meituan.net/waimaipoi/9ad7a7adb47bf70b9b10dc2dcbfd6ab646459.jpg)` }"
-        ></div>
-        <div class="info-describle">
-          
-            <div class="info-describle-md">
-              <span class="info-describle-minutes">30分钟</span>
-              <span class="info-describle-distance">1.8km</span>
-              <i class="info-describle-icon"></i>
-          </div>
-            <div class="info-shop">「杭州日料外卖榜首品牌」「年度高品质商家」。高峰时段运力不足和恶劣天气时，配送费会提价且送达时间误差较大，机智的宝宝请尽量提前下单哦！配送中的订单不可取消，配送进度可直接联系骑手追踪。其他问题可直接致电商家解决哦！</div>
-
-<slot />
-         
-        </div>
+  <div class="info-container">
+    <div
+      class="info-pic"
+      :style="{
+        backgroundImage: `url(http://p1.meituan.net/waimaipoi/9ad7a7adb47bf70b9b10dc2dcbfd6ab646459.jpg)`
+      }"
+    ></div>
+    <div class="info-describle">
+      <div class="info-describle-md">
+        <span class="info-describle-minutes">30分钟</span>
+        <span class="info-describle-distance">1.8km</span>
+        <i class="info-describle-icon"></i>
       </div>
+      <div class="info-shop">
+        「杭州日料外卖榜首品牌」「年度高品质商家」。高峰时段运力不足和恶劣天气时，配送费会提价且送达时间误差较大，机智的宝宝请尽量提前下单哦！配送中的订单不可取消，配送进度可直接联系骑手追踪。其他问题可直接致电商家解决哦！
+      </div>
+
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Info'
+  name: 'AppInfo'
 };
 </script>
-<style scoped lang='less'>
+<style scoped lang="less">
 @base: 37.5rem;
 .info {
   &-container {

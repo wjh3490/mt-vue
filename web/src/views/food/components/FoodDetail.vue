@@ -24,18 +24,19 @@
               >
                 加入购物车
               </div>
-              <Count
+              <!--  -->
+              <count
                 v-show="count1[foodDetails.spuId]"
                 :currentPrice="foodDetails.currentPrice"
                 :originPrice="foodDetails.originPrice"
                 :spuId="foodDetails.spuId"
                 :tag="foodDetails.tag"
                 :spuName="foodDetails.spuName"
-              ></Count>
+              />
             </div>
           </div>
-          <slot></slot>
-          <!-- <div class="close" @click="closeDetails"></div> -->
+          <!--  -->
+          <slot />
         </div>
       </div>
     </div>
@@ -43,46 +44,37 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Count from './Count'
+import { mapGetters } from 'vuex';
 export default {
-  name: 'Detail',
-  components: {
-    Count
-  },
+  name: 'FoodDetail',
   props: {
-    foodDetails: {
-      type: Object
-    },
-    showDetails1: {
-      type: Boolean
-    }
+    foodDetails: Object,
+    showDetails1: Boolean
   },
-  data () {
-    return {
-      toggleShow: false
-    }
-  },
+
   computed: {
     ...mapGetters(['count1'])
   },
 
   methods: {
-    // closeDetails () {
-    //   this.$emit('close', false)
-    // },
-    toggleStatus () {
+    toggleStatus() {
+      const {
+        currentPrice,
+        originPrice,
+        spuId,
+        tag,
+        spuName
+      } = this.foodDetails;
       this.$store.commit('addCart', {
-        currentPrice: this.foodDetails.currentPrice,
-        originPrice: this.foodDetails.originPrice,
-        spuId: this.foodDetails.spuId,
-        tag: this.foodDetails.tag,
-        spuName: this.foodDetails.spuName
-      })
-      this.toggleShow = !this.toggleShow
+        currentPrice,
+        originPrice,
+        spuId,
+        tag,
+        spuName
+      });
     }
   }
-}
+};
 </script>
 <style scoped lang="less">
 @base: 37.5rem;
@@ -177,28 +169,7 @@ export default {
           }
         }
       }
-      // .close {
-      //   width: 40 / @base;
-      //   height: 40 / @base;
-      //   border-radius: 50%;
-      //   background: url(../../assets/close.png) center no-repeat;
-      //   background-size: 100%;
-      //   margin: 0 auto;
-      //   margin-top: 15 / @base;
-      // }
     }
   }
 }
-
-// .scale-enter {
-//   transform: scale(0.2);
-//   .details-item {
-//     color: red;
-//   }
-// }
-// .scale-enter-active {
-//   transition: all 1000s;
-//   .details-item {
-//   }
-// }
 </style>

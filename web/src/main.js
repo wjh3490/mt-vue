@@ -7,10 +7,12 @@ import store from './store/store.js';
 import * as filters from './filters';
 
 import './style/base.css';
+import './style/tranition.css';
 import './utils/flexible';
 
 import axios from 'axios';
-
+import Count from '@/components/Count';
+Vue.component('Count', Count);
 import VueLazyLoad from 'vue-lazyload';
 
 Vue.use(VueLazyLoad, {
@@ -18,22 +20,21 @@ Vue.use(VueLazyLoad, {
   error: require('./assets/lazy.png'),
   loading: require('./assets/lazy.png'),
   attempt: 2
-})
+});
 // 设置基路径
 // axios.defaults.baseURL =
-Vue.prototype.$axios = axios
-Vue.config.productionTip = false
+Vue.prototype.$axios = axios;
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 // 设置全局 filters
 
 Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
-})
+  Vue.filter(key, filters[key]);
+});
 new Vue({
   render: h => h(App),
   store,
   router,
   components: { App }
 }).$mount('#app');
-

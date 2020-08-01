@@ -1,128 +1,52 @@
 <template>
   <div class="food">
     <div class="main">
-      <div class="scroller">
- <div class="left" v-scroll>
-        <ul>
-          <li
-            v-for="(item, index) in categoryList"
-            :key="index"
-            :class="{ scrollActive: id === index }"
-            @click="scrollToElement(scrollHeights[index], index)"
-          >
-            <img :src="item.iconUrl" alt v-if="index === 0" />
-            <span>{{ item.categoryName }}</span>
-            <div
-              v-if="typeNum[item.tag]"
-              class="num"
-              :class="{ m: typeNum[item.tag] >= 10, g: typeNum[item.tag] > 99 }"
-            >
-              {{ typeNum[item.tag] | filterNum }}
-            </div>
-          </li>
-        </ul>
-      </div>
-        
-      </div>
-     
-
-      <!-- </div> -->
-      <div class="food-right">
-        <ul class="out" ref="out" @scroll="handleScroll">
-          <li
-            v-for="(item, index) in categoryList"
-            :key="index"
-            class="li"
-            :class="{ paddingt: index === 0 }"
-            ref="scrollItem"
-          >
-            <h3 class="title">
-              {{ item.categoryName }}
-            </h3>
-            <ul
-              v-for="(item1, index) in item.spuList"
-              :key="index"
-              class="inner"
-            >
-              <li
-                @click="
-                  () => {
-                    foodDetails = item1;
-                    showDetails1 = true;
-                  }
-                "
-              >
-                <div class="pic">
-                  <img v-lazy="item1.bigImageUrl" alt />
-                </div>
-                <div class="des">
-                  <div class="p1">{{ item1.spuName }}</div>
-                  <div class="p2">{{ item1.spuDesc }}</div>
-                  <div class="num">
-                    <span>月售 100</span>
-                    <span>赞 100</span>
-                  </div>
-                  <div class="price">
-                    <span class="current">¥{{ item1.currentPrice }}</span>
-                    <span
-                      class="old"
-                      v-show="item1.currentPrice !== item1.originPrice"
-                      >¥{{ item1.originPrice }}</span
-                    >
-                    <!-- ********* -->
-                    <count
-                      :currentPrice="item1.currentPrice"
-                      :originPrice="item1.originPrice"
-                      :spuId="item1.spuId"
-                      :tag="item.tag"
-                      :spuName="item1.spuName"
-                    />
-                  </div>
-                  <div class="discount">
-                    <span
-                      v-for="(item2, index) in item1.skuList"
-                      :key="index"
-                      v-show="item2.skuPromotionInfo"
-                      >{{ item2.skuPromotionInfo }}</span
-                    >
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <!-- <div class="title_bar" ref="fixedTop"> -->
-        <!-- {{ fixedTitle }} -->
-        <!-- </div> -->
-      </div>
+      <!--  -->
+      <food-nav
+        :categoryList="categoryList"
+        :typeNum="typeNum"
+        :id="id"
+        :scrollHeights="scrollHeights"
+        @scrollToElement="scrollToElement"
+      />
+      <!--  -->
+      <food-goods
+        ref="goods"
+        :categoryList="categoryList"
+        @handleScroll="handleScroll"
+        @getHeight="h => (scrollHeights = h)"
+        @handleVisible="
+          (t, v) => {
+            foodDetails = t;
+            visible = v;
+          }
+        "
+      />
     </div>
-    <!-- <div class="food-left"> -->
-
-    <!-- /////////////// -->
-    <cart :deliveryFee="deliveryFee" />
-
-    <detail :foodDetails="foodDetails" :showDetails1="showDetails1">
-      <div class="close" @click="showDetails1 = false"></div>
-    </detail>
+    <!--  -->
+    <food-cart :deliveryFee="deliveryFee" />
+    <!--  -->
+    <food-detail :foodDetails="foodDetails" :showDetails1="visible">
+      <div class="close" @click="visible = false"></div>
+    </food-detail>
   </div>
 </template>
 
 <script>
 /*eslint-disable*/
 import { mapGetters } from 'vuex';
-import TWEEN from 'tween.js';
-import Count from './components/Count';
-import Cart from './components/Cart';
-import Detail from './components/Detail';
+import FoodCart from './components/FoodCart';
+import FoodGoods from './components/FoodGoods';
+import FoodNav from './components/FoodNav';
 import { scrollToEase } from '@/utils/scroll';
-import scroll from '@/directives/scroll';
 export default {
   name: 'Food',
-  directives: { scroll },
+
   components: {
-    Count,
-    Cart,
-    Detail
+    FoodCart,
+    FoodNav,
+    FoodGoods,
+    FoodDetail: () => import('./components/FoodDetail')
   },
   data() {
     return {
@@ -130,24 +54,31 @@ export default {
       scrollHeights: [],
       scrollY: 0,
       foodDetails: {},
-      showDetails1: false,
+      visible: false,
       deliveryFee: 0,
-      diff: -1,
       id: 0,
-      a: false
+
+      scrollTop: 0,
+      debundce: false,
+      flag: false,
+      timeId: null,
+      c: 0,
+      pre: 0,
+      next: 0
     };
   },
   computed: {
     ...mapGetters(['typeNum'])
   },
-  watch: {},
+
   created() {
     this.getFoodList();
   },
-  activated() {
-    this.$refs.out.scrollTop = this.scrollY;
+  mounted() {
+    this.goods = this.$refs.goods;
+    this.scrollbar = this.$refs.goods.$refs.scrollbar;
   },
-  mounted: function() {},
+
   methods: {
     async getFoodList() {
       const {
@@ -155,56 +86,52 @@ export default {
         data: { data }
       } = await this.$axios('//localhost:3001/getFood');
       if (status === 200) {
-        console.log(data);
         this.categoryList = data.data.categoryList;
         this.deliveryFee = data.data.shopInfo.deliveryFee;
         this.$store.commit('setMinFee', data.data.shopInfo.minFee);
       }
 
       this.$nextTick(() => {
-        this.getScroll();
-        // this.initScroll();
+        this.goods.getItemHeight();
       });
     },
-    scrollIndex() {
-      let scrollHeights = this.scrollHeights;
 
-      for (let i = 0; i < scrollHeights.length; i++) {
-        let startHeight = scrollHeights[i];
-        let endHeight = scrollHeights[i + 1];
-        // this.diff = endHeight - this.scrollY;
-
-        if (
-          !endHeight ||
-          (this.scrollY >= startHeight && this.scrollY < endHeight)
-        ) {
-          return i;
-        }
-      }
-      return 0;
-    },
-    getScroll() {
-      let height = 0;
-      let liList = this.$refs.scrollItem;
-      this.scrollHeights.push(height);
-      for (var i = 0; i < liList.length; i++) {
-        height += liList[i].clientHeight;
-        this.scrollHeights.push(height);
-      }
-    },
     handleScroll(e) {
-      this.scrollY = Math.abs(Math.round(e.target.scrollTop));
+      if (this.debundce) return;
 
-      if (!this.a) {
-        this.id = this.scrollIndex(); //./.
+      this.scrollY = e.target.scrollTop;
+      const scrollHeights = this.scrollHeights;
+      if (this.startY > this.scrollTop) {
+        return;
       }
+      // if (a >= this.scrollY) {
+      //   this.flag = true;
+      //   if (this.flag) {
+      //     let filterItem = scrollHeights.filter(item => item <= this.scrollY);
+      //     this.scrollTop = scrollHeights[filterItem.length];
+      //     this.id = filterItem.length - 1;
+      //   }
+      // }
 
-      this.a = false;
+      // const scrollHeights = this.scrollHeights;
+
+      let filterItem = scrollHeights.filter(item => item <= this.scrollY);
+      this.scrollTop = scrollHeights[filterItem.length];
+      this.id = filterItem.length - 1;
     },
 
     scrollToElement(scrollHeights, index) {
-      let scrollTop = this.$refs.out.scrollTop;
-      scrollToEase(this.$refs.out, scrollTop, scrollHeights);
+      this.debundce = true;
+      let scrollTop = this.scrollbar.scrollTop;
+
+      this.id = index;
+      this.scrollTop = this.scrollHeights[index + 1];
+      this.scrollY = scrollHeights;
+
+      scrollToEase(this.scrollbar, scrollTop, scrollHeights, 200, () => {
+        this.timeId = setTimeout(() => (this.debundce = false), 25);
+      });
+      this.$once('hook:beforeDestroy', () => clearTimeout(this.timeId));
     }
   }
 };

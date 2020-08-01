@@ -1,4 +1,4 @@
-export function scrollToEase(el, start, to, duration = 200) {
+export function scrollToEase(el, start, to, duration = 200, callback) {
   const change = to - start;
 
   const increment = 20;
@@ -8,8 +8,13 @@ export function scrollToEase(el, start, to, duration = 200) {
     currentTime += increment;
     var val = easeOutQuart(currentTime, start, change, duration);
     el.scrollTop = val;
+
     if (currentTime < duration) {
       requestAnimFrame(animate);
+    } else {
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
     }
   };
   animate();

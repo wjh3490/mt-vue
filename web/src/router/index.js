@@ -17,6 +17,7 @@ export default new Router({
       path: '/',
       redirect: '/food'
     },
+
     ...routerList
   ]
 });

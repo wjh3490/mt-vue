@@ -1,20 +1,26 @@
 <template>
- <div class="swiper-container">
-            <ul class="swiper-main" ref="swiper" @transitionend='handleTransitionEnd'>
-              <li class="swiper-item" v-for="(item, index) in activityList" :key="index">
-                <i :style="{ backgroundImage: `url(${item.iconUrl})` }"></i>
-                <span>666666</span>
-              </li>
-            </ul>
-          </div>
+  <div class="swiper-container">
+    <ul class="swiper-main" ref="swiper" @transitionend="handleTransitionEnd">
+      <li
+        class="swiper-item"
+        v-for="(item, index) in activityList"
+        :key="index"
+      >
+        <i :style="{ backgroundImage: `url(${item.iconUrl})` }"></i>
+        <span>666666</span>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 const PERSENT = 100 / 3;
 
 export default {
-  name: 'Swiper',
-  props: ['activityList'],
+  name: 'AppSwiper',
+  props: {
+    activityList: Array
+  },
   data() {
     return {
       index: 0
@@ -27,10 +33,9 @@ export default {
   },
   methods: {
     animate() {
-      this.$refs.swiper.offsetWidth; // 重绘和回流
+      this.$refs.swiper.offsetWidth; //
       setInterval(() => {
         this.index++;
-        console.log(this.$refs.swiper);
         this.$refs.swiper.style.transition = 'all .5s';
         this.$refs.swiper.style.transform = `translateY(${-this.index *
           PERSENT}%)`;
@@ -46,7 +51,7 @@ export default {
   }
 };
 </script>
-<style scoped lang='less'>
+<style scoped lang="less">
 @base: 37.5rem;
 .swiper {
   &-container {

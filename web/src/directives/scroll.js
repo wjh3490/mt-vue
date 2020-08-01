@@ -3,17 +3,19 @@ let touchstart, touchmove, touchend;
 export default {
   inserted(el, binding, vnode) {
     const parentNode = document.getElementById('app');
-    let startX, scrollTop;
+
+    let startY, scrollTop;
     touchstart = e => {
       e.stopPropagation();
-      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
       scrollTop = parentNode.scrollTop;
     };
 
     touchmove = e => {
-      const deltaX = e.touches[0].clientX - startX;
-      console.log(parentNode.scrollTop);
-      parentNode.scrollTop = scrollTop + deltaX;
+      const deltaY = e.touches[0].clientY - startY;
+      if ((deltaY > 0 || deltaY <= 0) && scrollTop >= 170) return;
+      if (Math.abs(deltaY) >= 170) return;
+      parentNode.scrollTop = scrollTop + -deltaY;
     };
 
     touchend = e => {};

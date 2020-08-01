@@ -1,5 +1,9 @@
 <template>
-  <div class="swiper" @click.stop.prevent="hideSwiper" ref="mySwiper">
+  <div
+    class="swiper"
+    @click.stop.prevent="$emit('swiper', [], false)"
+    ref="mySwiper"
+  >
     <div class="title">{{ index }}/{{ swiperList.length }}</div>
     <Swiper :options="swiperOption" ref="mySwiper" class="item">
       <SwiperSlide
@@ -20,34 +24,30 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/swiper-bundle.css';
 
 export default {
+  name: 'CommentSwiper',
+  components: {
+    Swiper,
+    SwiperSlide
+  },
   props: {
     swiperList: {
       type: Array
     }
   },
-  data () {
-    const self = this
+  data() {
+    const self = this;
     return {
       index: 1,
       swiperOption: {
         on: {
-          slideChangeTransitionEnd () {
-            self.index = this.realIndex + 1
+          slideChangeTransitionEnd() {
+            self.index = this.realIndex + 1;
           }
         }
       }
-    }
-  },
-  components: {
-    Swiper,
-    SwiperSlide
-  },
-  methods: {
-    hideSwiper () {
-      this.$emit('pSwiper', false)
-    }
+    };
   }
-}
+};
 </script>
 <style scoped lang="less">
 @base: 37.5rem;
@@ -57,6 +57,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
+  z-index: 999;
   background-color: #000;
   .title {
     width: 100%;

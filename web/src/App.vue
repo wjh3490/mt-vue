@@ -1,58 +1,34 @@
 <template>
   <div id="app">
     <header>
-      <div class="return">
-        <i></i>
-      </div>
-<Info>
-  <Swiper :activityList='activityList' />
-</Info>
-      <!-- <div class="shop">
-        <div
-          class="home-pic"
-          :style="{ backgroundImage: `url(http://p1.meituan.net/waimaipoi/9ad7a7adb47bf70b9b10dc2dcbfd6ab646459.jpg)` }"
-        ></div>
-        <div class="home-right">
-          <div class="right-top">
-            <div class="km">
-              <span class="minutes">30分钟</span>
-              <span class="distance">1.8km</span>
-              <i></i>
-            </div>
-            <div class="inform">「杭州日料外卖榜首品牌」「年度高品质商家」。高峰时段运力不足和恶劣天气时，配送费会提价且送达时间误差较大，机智的宝宝请尽量提前下单哦！配送中的订单不可取消，配送进度可直接联系骑手追踪。其他问题可直接致电商家解决哦！</div>
-          </div>
-          <div class="home-swiper">
-            <ul ref="ul">
-              <li v-for="(item, index) in activityList" :key="index">
-                <i :style="{ backgroundImage: `url(${item.iconUrl})` }"></i>
-                <span>666666</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div> -->
+      <div class="return"><i></i></div>
+      <!--  -->
+      <app-info>
+        <!--  -->
+        <app-swiper :activityList="activityList" />
+      </app-info>
     </header>
+    <!--  -->
+    <app-nav :navList="navList" />
 
-
-<NavBase :navList='navList' />
-   
-    <transition :name="slide">
-      <keep-alive>
-        <router-view class="Router"></router-view>
-      </keep-alive>
-    </transition>
-
+    <div>
+      <transition :name="slide">
+        <keep-alive>
+          <router-view  class="Router"/>
+        </keep-alive>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
 /*eslint-disable*/
-import NavBase from '@/components/Nav.vue';
-import Info from '@/components/Info.vue';
-import Swiper from '@/components/Swiper.vue';
+import AppNav from '@/components/AppNav.vue';
+import AppInfo from '@/components/AppInfo.vue';
+import AppSwiper from '@/components/AppSwiper.vue';
 export default {
   name: 'App',
-  components: { NavBase, Info, Swiper },
+  components: { AppNav, AppInfo, AppSwiper },
   data() {
     return {
       shopPic: '',
@@ -92,37 +68,7 @@ export default {
         this.slide = 'slide-right';
       }
     }
-  },
-
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     this.animate1();
-  //   });
-  // },
-  // // computed: {
-  // //   categoryList() {
-  // //     return this.$store.state.foodInfo;
-  // //   }
-  // // },
-  // methods: {
-  //   animate1() {
-  //     this.$refs.ul.offsetWidth; // 重绘和回流
-  //     setInterval(() => {
-  //       this.index++;
-  //       this.$refs.ul.style.transition = 'all .5s';
-  //       this.$refs.ul.style.transform = `translateY(${-this.index * PERSENT}%)`;
-  //     }, 2000);
-
-  //     this.$refs.ul.addEventListener('transitionend', this.transitionEnd);
-  //   },
-  //   transitionEnd() {
-  //     if (this.index >= this.activityList.length - 1) {
-  //       this.index = 0;
-  //       this.$refs.ul.style.transition = 'none';
-  //       this.$refs.ul.style.transform = 'translateY(0)';
-  //     }
-  //   }
-  // }
+  }
 };
 </script>
 
@@ -131,17 +77,13 @@ export default {
 #app {
   // width: 100%;
   // height: 100%;
+  height: 100vh;
+  width: 100vw;
   font-size: 12 / @base;
-  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-// .home {
-// font-size: 12 / @base;
-// position: fixed;
-// top: 0;
-// left: 0;
-// right: 0;
-// }
 .router-link-active {
   font-weight: bolder;
   color: #333333;
@@ -278,13 +220,10 @@ header {
 //   overflow: hidden;
 // }
 
-.Router {
-  position: absolute;
-  /* height: 100%; */
-  width: 100%;
-  transition: all 0.5s linear;
-  // z-index: -2;
-}
+// .Router {
+//   position: absolute;
+//   transition: all 0.5s linear;
+// }
 
 .slide-left-enter,
 .slide-right-leave-active {

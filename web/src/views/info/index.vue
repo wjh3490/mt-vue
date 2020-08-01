@@ -28,23 +28,17 @@
         <span>改商户支持在线支付</span>
       </div>
 
-      <div class="activityList">
-        <ul>
-          <li
-            v-for="(item, index) in activityList"
-            :key="index"
-            :style="{ backgroundImage: `url(${item.bgc})` }"
-          >
-            {{ item.actDesc }}
-          </li>
-        </ul>
-      </div>
+      <!--  -->
+      <info-list :activityList="activityList" />
     </div>
   </div>
 </template>
 
 <script>
+import InfoList from './components/InfoList';
 export default {
+  name: 'Info',
+  components: { InfoList },
   data() {
     return {
       shopAddress: '',
@@ -79,13 +73,12 @@ export default {
       if (status === 200) {
         const {
           shopAddress,
-          // activityList,
           poiQualificationInfo,
           tip,
           shopPhone
-        } = data.data;
+        } = data.data.data;
+
         this.shopAddress = shopAddress;
-        // this.activityList = activityList
         this.poiQualificationInfo = poiQualificationInfo;
         this.tip = tip;
         this.shopPhone = shopPhone;

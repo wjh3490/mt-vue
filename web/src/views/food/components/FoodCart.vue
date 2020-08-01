@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="shopcart">
-      <div class="shopcart-left" @click="isShowCart">
+      <div class="shopcart-left" @click="handleVisible">
         <div class="cart">
           <div class="icon" :class="cartBgc"></div>
           <div
@@ -12,6 +12,7 @@
             {{ totalCount | filterNum }}
           </div>
         </div>
+
         <div class="delivery-price">
           <p class="total" v-show="totalCount">
             <span>¥</span>
@@ -30,6 +31,7 @@
           </p>
         </div>
       </div>
+
       <div
         class="shopcart-right"
         :style="{
@@ -40,73 +42,31 @@
         <span>{{ payStatus.payStatus }}</span>
       </div>
     </div>
-    <transition name="fold">
-      <div class="list" v-show="listShow">
-        <header>
-          <span class="list-cart">购物车</span>
-          <span class="empty fr" @click="emptyCart">清空</span>
-        </header>
-        <div class="cart-list">
-          <ul>
-            <li
-              v-for="(item, index) in selectFoods"
-              :key="index"
-            >
-              <div class="food-name">
-                <div class="food-item">{{ item.spuName }}</div>
-                <div class="food-price">
-                  ¥{{ (item.currentPrice * item.count).toFixed(2) }}
-                </div>
-              </div>
-              <div class="foodnum">
-                <Count
-                  :currentPrice="item.currentPrice"
-                  :originPrice="item.originPrice"
-                  :spuId="item.spuId"
-                  :tag="item.tag"
-                  :spuName="item.spuName"
-                ></Count>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </transition>
+    <!--  -->
+    <food-cart-list :visible="visible" @clearAll="clearAll" />
 
-    <div
-      class="shop-mask"
-      v-show="listShow"
-      @click="isShowCartList = true"
-    ></div>
+    <div class="shop-mask" v-show="visible" @click="visible = false"></div>
   </div>
 </template>
 
 <script>
-import Count from './Count.vue'
-import { mapGetters, mapState } from 'vuex'
+/* eslint-disable */
+import { mapGetters, mapState } from 'vuex';
 export default {
-  name: 'Cart',
+  name: 'FoodCart',
   components: {
-    Count
+    FoodCartList: () => import(/* webpackChunkName: 'CartList' */ './FoodCartList')
   },
   props: {
-    deliveryFee: {
-      type: Number
-    }
+    deliveryFee: Number
   },
 
-  data () {
+  data() {
     return {
-      isShowCartList: true
-    }
+      visible: false
+    };
   },
   computed: {
-    listShow () {
-      if (!this.totalCount) {
-        return false
-      }
-      return !this.isShowCartList
-    },
     ...mapGetters([
       'totalPrice',
       'totalCount',
@@ -117,26 +77,16 @@ export default {
     ...mapState(['selectFoods'])
   },
   methods: {
-    // listShow () {
-    //   if (!this.totalCount) {
-    //     return false
-    //   }
-    //   return !this.isShowCartList
-    // },
-    // isShowMask () {
-    //   this.isShowCartList = true
-    // },
-    emptyCart () {
-      this.$store.commit('sEmptyCart')
-      this.isShowCartList = false
+    clearAll() {
+      this.visible = false;
+      this.$store.commit('sEmptyCart');
     },
-    isShowCart () {
-      if (this.totalCount) {
-        this.isShowCartList = !this.isShowCartList
-      }
+    handleVisible() {
+      if (!this.totalCount) return;
+      this.visible = !this.visible;
     }
   }
-}
+};
 </script>
 <style scoped lang="less">
 @base: 37.5rem;
@@ -229,52 +179,6 @@ export default {
   }
 }
 
-.list {
-  position: fixed;
-  width: 100%;
-  bottom: 50 / @base;
-  font-size: 12 / @base;
-  z-index: 101;
-  left: 0;
-  header {
-    line-height: 30 / @base;
-    height: 30 / @base;
-
-    background: #f4f4f4;
-    padding: 4 / @base 15 / @base;
-    .empty {
-      background: url(../../../assets/icon2.png) left center no-repeat;
-      background-size: 13 / @base 15 / @base;
-      padding-left: 20 / @base;
-    }
-  }
-  .cart-list {
-    background-color: #fff;
-    li {
-      font-size: 16 / @base;
-      padding: 14 / @base 0 / @base;
-      margin: 0 15 / @base;
-      .foodnum {
-        position: relative;
-      }
-      .food-name {
-        display: flex;
-        position: relative;
-        .food-price {
-          position: absolute;
-          right: 100 / @base;
-        }
-        .food-item {
-          width: 120 / @base;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-      }
-    }
-  }
-}
-
 .shop-mask {
   position: fixed;
   top: 0;
@@ -285,15 +189,5 @@ export default {
   background: rgba(7, 17, 27, 0.6);
   filter: blur(10 / @base);
   transform: scale(1.2);
-}
-
-.fold-enter-active,
-.fold-leave-active {
-  transition: all 0.2s ease;
-}
-
-.fold-enter,
-.fold-leave-to {
-  transform: translate3d(0, 100%, 0);
 }
 </style>

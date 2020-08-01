@@ -1,0 +1,9 @@
+.fold-enter-active,
+.fold-leave-active {
+  transition: all 0.2s ease;
+}
+
+.fold-enter,
+.fold-leave-to {
+  transform: translate3d(0, 100%, 0);
+}
